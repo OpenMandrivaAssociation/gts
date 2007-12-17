@@ -16,7 +16,6 @@ BuildRequires:	glib-devel
 %ifarch x86_64
 BuildRequires:	chrpath
 %endif
-BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 This is the GTS library. GTS stands for the GNU Triangulated
