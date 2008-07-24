@@ -4,7 +4,7 @@
 
 Name:    	gts
 Version: 	0.7.6
-Release: 	%mkrel 5
+Release: 	%mkrel 7
 Summary: 	3D modeling, animation, and rendering system
 License: 	GPL
 Group: 	 	System/Libraries
