@@ -1,22 +1,24 @@
 %define major 5
 %define api 0.7
 %define libname	%mklibname %{name}%{api}_ %{major}
+%define develname %mklibname %{name} -d
 
-Name:    	gts
-Version: 	0.7.6
-Release: 	%mkrel 7
-Summary: 	3D modeling, animation, and rendering system
-License: 	GPL
-Group: 	 	System/Libraries
+Summary:	3D modeling, animation, and rendering system
+Name:		gts
+Version:	0.7.6
+Release:	%mkrel 8
+License:	LGPLv2+
+Group:		System/Libraries
 URL:		http://gts.sourceforge.net/
-Source:		http://prdownloads.sourceforge.net/gts/%{name}-%{version}.tar.bz2
-BuildRequires:	pkgconfig
+Source0:	http://prdownloads.sourceforge.net/gts/%{name}-%{version}.tar.bz2
+Patch0:		gts-0.7.6-fix-underlinking.patch
 BuildRequires:	netpbm-devel
-BuildRequires:	glib-devel
+BuildRequires:	glib2-devel
 %ifarch x86_64
 BuildRequires:	chrpath
 %endif
-BuildRoot:	%{_tmppath}/%{name}-%{version}
+Requires:	%{libname} = %{version}-%{release}
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 This is the GTS library. GTS stands for the GNU Triangulated
@@ -27,29 +29,35 @@ surfaces (intersection, union etc ...), bounding-boxes trees for efficient
 collision and intersection detection, triangle strips generation for fast
 rendering.
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	Libraries for %{name}
 Group:		System/Libraries
 Obsoletes:	%mklibname gts 3
+Requires:	%{name} = %{version}-%{release}
 
 %description -n	%{libname}
 Libraries for %{name}.
 
-%package -n	%{libname}-devel
+%package -n %{develname}
 Summary:	Headers for %{name}
 Group:		System/Libraries
 Requires:	%{libname} = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
-Obsoletes:	%mklibname -d gts 3
+Obsoletes:	%{mklibname gts 3 -d}
+Obsoletes:	%{mklibname %{name}0.7_ 5 -d} < 0.7.6-8
+Provides:	%{mklibname %{name}0.7_ 5 -d}
 
-%description -n	%{libname}-devel
+%description -n	%{develname}
 Development headers and libraries for %{name}.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
+autoreconf -fi
+
 %configure2_5x
 %make
 
@@ -85,7 +93,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS COPYING README
+%doc AUTHORS README
 %{_bindir}/gts2dxf
 %{_bindir}/gts2oogl
 %{_bindir}/gts2stl
@@ -102,7 +110,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_libdir}/*%{api}.so.%{major}*
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %multiarch %{multiarch_bindir}/gts-config
 %{_bindir}/gts-config
@@ -111,5 +119,3 @@ rm -rf %{buildroot}
 %{_libdir}/*.la
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/gts.pc
-
-
