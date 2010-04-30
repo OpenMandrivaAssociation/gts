@@ -12,6 +12,7 @@ Group:		System/Libraries
 URL:		http://gts.sourceforge.net/
 Source0:	http://prdownloads.sourceforge.net/gts/%{name}-%{version}.tar.bz2
 Patch0:		gts-0.7.6-fix-underlinking.patch
+Patch1:		gts-0.7.6-netpbm.patch
 BuildRequires:	netpbm-devel
 BuildRequires:	glib2-devel
 %ifarch x86_64
@@ -54,6 +55,7 @@ Development headers and libraries for %{name}.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p0
 
 %build
 autoreconf -fi
