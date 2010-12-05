@@ -6,7 +6,7 @@
 Summary:	3D modeling, animation, and rendering system
 Name:		gts
 Version:	0.7.6
-Release:	%mkrel 9
+Release:	%mkrel 10
 License:	LGPLv2+
 Group:		System/Libraries
 URL:		http://gts.sourceforge.net/
