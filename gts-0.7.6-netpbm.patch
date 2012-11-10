@@ -1,0 +1,10 @@
+--- examples/Makefile.am.netpbm	2010-04-30 16:36:47.000000000 +0200
++++ examples/Makefile.am	2010-04-30 16:37:32.000000000 +0200
+@@ -10,6 +10,7 @@
+ happrox_LDADD = $(LDADD) -lnetpbm
+ 
+ if HAS_NETPBM
++INCLUDES += -I$(includedir)/netpbm
+ NETPBM_EXTRA = happrox
+ endif
+ 
