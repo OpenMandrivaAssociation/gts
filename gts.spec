@@ -6,7 +6,7 @@
 Summary:	3D modeling, animation, and rendering system
 Name:		gts
 Version:	0.7.6
-Release:	%mkrel 11
+Release:	%mkrel 10
 License:	LGPLv2+
 Group:		System/Libraries
 URL:		http://gts.sourceforge.net/
@@ -14,12 +14,11 @@ Source0:	http://prdownloads.sourceforge.net/gts/%{name}-%{version}.tar.bz2
 Patch0:		gts-0.7.6-fix-underlinking.patch
 Patch1:		gts-0.7.6-netpbm.patch
 BuildRequires:	netpbm-devel
-BuildRequires:	glib2-devel
+BuildRequires:	pkgconfig(glib-2.0)
 %ifarch x86_64
 BuildRequires:	chrpath
 %endif
 Requires:	%{libname} = %{version}-%{release}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 This is the GTS library. GTS stands for the GNU Triangulated
@@ -64,7 +63,6 @@ autoreconf -fi
 %make
 
 %install
-rm -rf %{buildroot}
 
 %makeinstall_std
 
@@ -81,17 +79,6 @@ chrpath -d %{buildroot}%{_bindir}/transform
 %endif
 
 %multiarch_binaries %{buildroot}%{_bindir}/gts-config
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
-%clean
-rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
@@ -114,10 +101,70 @@ rm -rf %{buildroot}
 
 %files -n %{develname}
 %defattr(-,root,root)
-%multiarch %{multiarch_bindir}/gts-config
+%{multiarch_bindir}/gts-config
 %{_bindir}/gts-config
 %{_includedir}/*.h
 %{_libdir}/*.a
-%{_libdir}/*.la
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/gts.pc
+
+
+%changelog
+* Sun Dec 05 2010 Oden Eriksson <oeriksson@mandriva.com> 0.7.6-10mdv2011.0
++ Revision: 611018
+- rebuild
+
+* Fri Apr 30 2010 Funda Wang <fwang@mandriva.org> 0.7.6-9mdv2010.1
++ Revision: 541276
+- correct fix for netpbm
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+
+* Wed Feb 11 2009 Tomasz Pawel Gajc <tpg@mandriva.org> 0.7.6-8mdv2009.1
++ Revision: 339362
+- new devel library policy
+- new license policy
+- Patch0: fix underlinking
+- spec file clean
+- obsolete/provide old devel library
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+
+  + Pixel <pixel@mandriva.com>
+    - do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
+
+* Wed Jan 02 2008 Olivier Blin <oblin@mandriva.com> 0.7.6-5mdv2008.1
++ Revision: 140744
+- restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+
+* Tue Feb 27 2007 Tomasz Pawel Gajc <tpg@mandriva.org> 0.7.6-5mdv2007.0
++ Revision: 126553
+- incerase release tag
+- fix obsoletes
+- obsoletes libgts3
+- correct deps
+
+* Mon Feb 26 2007 Tomasz Pawel Gajc <tpg@mandriva.org> 0.7.6-3mdv2007.1
++ Revision: 125959
+- fix libification
+- nuke rpath
+- set %%multiarch on gst-config
+- some minor changes
+
+* Wed Nov 29 2006 Guillaume Rousse <guillomovitch@mandriva.org> 0.7.6-2mdv2007.1
++ Revision: 88327
+- fix buildrequires
+- oops, forgot new files
+- new version
+  drop libtool patch (usage unknown, and break build)
+- Import gts
+
+* Sun Jun 05 2005 Guillaume Rousse <guillomovitch@mandriva.org> 0.7.3-1mdk  
+- first mdk package, contributed by Morreale Jean Roc  (<ihatedaspam@enoreth.net>)
+
