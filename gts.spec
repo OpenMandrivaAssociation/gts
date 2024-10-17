@@ -9,7 +9,7 @@ Version:	0.7.6
 Release:	11
 License:	LGPLv2+
 Group:		System/Libraries
-URL:		http://gts.sourceforge.net/
+URL:		https://gts.sourceforge.net/
 Source0:	http://prdownloads.sourceforge.net/gts/%{name}-%{version}.tar.bz2
 Patch0:		gts-0.7.6-fix-underlinking.patch
 Patch1:		gts-0.7.6-netpbm.patch
